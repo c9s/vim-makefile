@@ -1,7 +1,7 @@
 Vim-Makefile
 ============
 
-Makefile for install, uninstall, bundle, distribute Vim plugin scripts.
+A lightweight non-dependency Makefile for install, uninstall, bundle, distribute Vim plugin scripts.
 
 INSTALLATION
 ============
