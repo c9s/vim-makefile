@@ -44,6 +44,8 @@ RECORD_FILE=.record
 PWD=`pwd`
 README_FILES=`find . -type f -iname "README*"`
 README_FILES=`find . -type f -iname "README*"`
+WGET_OPT="-c -nv"
+CURL_OPT=""
 
 # FUNCTIONS {{{
 
@@ -54,9 +56,9 @@ fetch_deps = \
 		; fi	 							    \
 		; echo " => $(2)"						\
 		; if [[ ! -z `which wget` ]] ; then 	\
-			wget -c $(1) -O $(2)  				    \
+			wget $(WGET_OPT) $(1) -O $(2)  				    \
 		; elif [[ ! -z `which curl` ]] ; then   \
-			curl $(1) > $(2) ;					\
+			curl $(CURL_OPT) $(1) > $(2) ;					\
 		; fi  									\
 		; echo $(2) >> .bundlefiles
 
@@ -67,9 +69,9 @@ fetch_github = \
 		; fi	 							    \
 		; echo " => $(5)"						\
 		; if [[ ! -z `which wget` ]] ; then                               \
-			wget -c http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5)  \
+			wget $(WGET_OPT) http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5)  \
 		; elif [[ ! -z `which curl` ]] ; then                        	    \
-			curl http://github.com/$(1)/$(2)/raw/$(3)/$(4) > $(5)      \
+			curl $(CURL_OPT) http://github.com/$(1)/$(2)/raw/$(3)/$(4) > $(5)      \
 		; fi									\
 		; echo $(5) >> .bundlefiles
 
