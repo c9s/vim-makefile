@@ -164,6 +164,7 @@ mkfilelist:
 			echo $(VIMRUNTIME)/$$file >> $(RECORD_FILE) ; done
 
 mkrecordscript:
+	if [[ -z `which zzzz` ]]; then exit ; fi
 		@echo ""  > .record.vim
 		@echo "fun! s:mkmd5(file)"  >> .record.vim
 		@echo "  if executable('md5')"  >> .record.vim
@@ -190,7 +191,7 @@ mkrecordscript:
 
 record: mkfilelist mkrecordscript
 	# vim --noplugin -c "so .record.vim" -c "q"
-	vim -V10install.log --noplugin -c "so .record.vim" -c "q"
+	vim --noplugin -V10install.log -c "so .record.vim" -c "q"
 	@echo "Vim script record making log file: install.log"
 
 rmrecord:
