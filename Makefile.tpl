@@ -115,7 +115,7 @@ OTHER_FILES=
 # 	  $(call fetch_github,[account id],[project],[branch],[source path],[target path])
 # 	  $(call fetch_url,[file url],[target path])
 # 	  $(call fetch_local,[from],[to])
-include config.mk
+-include config.mk
 
 # }}}
 
