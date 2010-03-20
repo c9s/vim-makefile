@@ -167,9 +167,8 @@ mkrecordscript:
 {{Script}}
 
 record: mkfilelist mkrecordscript
-	# vim --noplugin -c "so .record.vim" -c "q"
 	vim --noplugin -V10install.log -c "so .record.vim" -c "q"
-	@echo "Vim script record making log file: install.log"
+	@echo "Vim script record making log: install.log"
 
 rmrecord:
 	@rm -vf $(VIMRUNTIME)/record/$(NAME)
