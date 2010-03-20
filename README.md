@@ -13,27 +13,24 @@ Put bin/vim-makefile to your PATH, e.g.
 USAGE
 =====
 
-Put this Makefile to your plugin directory and your scripts should be put in
+To initialize a Makefile for plugin:
+
+	$ cd your_plugin
+	$ vim-makefile   # will download fresh Makefile from github
+
+And your scripts should be put in
 {type}/ direcotry. for example:
     
 	autoload/blah.vim
-    plugin/util.vim
     plugin/aaa.vim
 	ftplugin/bbb.vim
 	snippets/xxxx.snippets
-
 
 The default behavior is, When installing vim scripts, your plugin name will be
 the current directory name, and will search files from all directories to
 install. And will use vim script to generate an installation record in JSON
 format (also Vim dictionary format), which is located at
-$(VIMRUNTIME)/record/{plugin_name}
-
-
-To initialize a Makefile for plugin:
-
-	$ cd your_plugin
-	$ vim-makefile   # will download fresh Makefile from github
+`$(VIMRUNTIME)/record/{plugin_name}`
 
 To install scripts:
 
