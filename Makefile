@@ -219,6 +219,16 @@ clean-bundle-deps:
 	fi
 	@rm -fv .bundlefiles
 
+update:
+	URL=http://github.com/c9s/vim-makefile/raw/master/Makefile ; \
+	if [[ -n `which wget` ]]; then \
+		wget -c $$URL ; \
+	elif [[ -n `which curl` ]]; then \
+		curl $$URL > Makefile ; \
+	elif [[ -n `which fetch` ]]; then \
+		fetch $$URL ; \
+	fi
+
 version:
 	@echo version - $(MAKEFILE_VERSION)
 
