@@ -47,18 +47,29 @@ DIRS=`find . -type d | grep -v '.git' | grep -v '.svn'`
 
 # FUNCTIONS {{{
 fetch_deps = \
+		if [[ -e $(2) ]] ; then 				\
+			exit;								\
+		fi	 								    \
 		if [[ ! -z `which wget` ]] ; then 		\
 			wget $(1) -O $(2) ; 				\
 		elif [[ ! -z `which curl` ]] ; then     \
 			curl $(1) > $(2) ;					\
-		fi
+		fi  									\
+		echo $(2) >> .bundlefiles
+
 fetch_github = \
+		if [[ -e $(5) ]] ; then 				\
+			exit;								\
+		fi	 								    \
 		if [[ ! -z `which wget` ]] ; then                               \
 			wget --progress=dot http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5) ; \
 		elif [[ ! -z `which curl` ]] ; then                        	    \
 			curl http://github.com/$(1)/$(2)/raw/$(3)/$(4) > $(5)     ; \
-		fi
-fetch_local = @cp -v $(1) $(2)
+		fi									\
+		echo $(5) >> .bundlefiles
+fetch_local = @cp -v $(1) $(2) \
+		echo $(2) >> .bundlefiles
+
 # }}}
 # }}}
 # USER CONFIGURATION {{{
@@ -126,6 +137,7 @@ rmrecord:
 clean:
 	rm -v $(RECORD_FILE)
 	rm install.log
+	if [[ -e .bundlefiles ]]; then rm -v `cat .bundlefiles` ; fi
 
 version:
 	@echo version - $(MAKEFILE_VERSION)
