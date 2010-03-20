@@ -3,6 +3,56 @@ Vim-Makefile
 
 Makefile for installing, uninstalling Vim plugin scripts.
 
+USAGE
+=====
+
+Put this Makefile to your plugin directory and your scripts should be put in
+{type}/ direcotry. for example:
+    
+	autoload/blah.vim
+    plugin/util.vim
+    plugin/aaa.vim
+	ftplugin/bbb.vim
+	snippets/xxxx.snippets
+
+
+The default behavior is, When installing vim scripts, your plugin name will be
+the current directory name, and will search files from all directories to
+install. And will use vim script to generate an installation record in JSON
+format (also Vim dictionary format), which is located at
+$(VIMRUNTIME)/record/{plugin_name}
+
+
+To install scripts:
+
+    $ make install
+
+To uninstall scripts:
+
+    $ make uninstall
+
+To link scripts:
+
+    $ make link
+
+To create dist tarball:
+
+	$ make dist
+
+To import dependented scripts:
+
+	$ make bundle
+
+
+CUSTOMIZE
+=========
+
+To customize makefile config , you can simply create a `config.mk` file , which
+is optional , for example:
+
+	NAME=hypergit.vim
+	VIMRUNTIME=~/.vim
+
 
 FUNCTIONS
 =========
@@ -25,44 +75,22 @@ Examples:
 
 	$(call fetch_url,http://......,plugin/xxxx.vim)
 
-You can write your bundle script in bundle section in your Makefile, for example:
 
-	bundle:
+BUNDLE DEPENDENTED SCRIPTS
+==========================
+You can bundle dependented scripts when making a distribution ,add these
+lines below to your `config.mk` file:
+
+	bundle-deps:
 		$(call fetch_github,c9s,treemenu.vim,master,plugin/treemenu.vim,plugin/treemenu.vim)
+		$(call fetch_github,c9s,helper.vim,master,plugin/helper.vim,plugin/helper.vim)
+
+Then you can just bundle scripts from elsewhere:
+
+	$ make bundle
 
 So if you want to make a distribution , you can just type:
 
 	$ make dist
 
-or just bundle scripts from elsewhere:
-
-	$ make bundle
-
-USAGE
-=====
-
-Put this Makefile to your plugin directory, and edit plugin name in Makefile.
-your scripts should be put in {type}/ direcotry. for example:
-    
-    plugin/util.vim
-    plugin/
-	autoload/blah.vim
-
-
-To install scripts:
-
-    $ make install
-
-To uninstall scripts:
-
-    $ make uninstall
-
-To link scripts:
-
-    $ make link
-
-To create dist tarball:
-
-	$ make dist
-
-
+Then the {plugin_name}.tar.gz will come out.
