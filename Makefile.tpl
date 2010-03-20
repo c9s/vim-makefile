@@ -123,7 +123,7 @@ OTHER_FILES=
 # ======= SECTIONS ======= {{{
 all: install
 
-bundle-deps-init: clean-bundle-deps
+bundle-deps-init:
 	@echo > ".bundlefiles"
 
 bundle: bundle-deps-init bundle-deps
