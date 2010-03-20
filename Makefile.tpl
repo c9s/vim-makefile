@@ -85,7 +85,7 @@ fetch_local = @cp -v $(1) $(2) \
 NAME=`basename \`pwd\``
 
 # Files to add to tarball:
-DIRS=`find . -type d | grep -v '.git' | grep -v '.svn'`
+DIRS=`find . -type d | grep -v '.git' | grep -v '.svn' | grep -vE "\.$$"`
 
 # Runtime path to install:
 VIMRUNTIME=~/.vim
@@ -121,6 +121,7 @@ OTHER_FILES=
 
 # }}}
 # ======= SECTIONS ======= {{{
+all: install
 
 bundle-deps-init: clean-bundle-deps
 	@echo > ".bundlefiles"
@@ -130,13 +131,12 @@ bundle: bundle-deps-init bundle-deps
 dist: bundle mkfilelist
 	@tar czvHf $(NAME).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
 
-all: install
-
 init-runtime:
 	@mkdir -p $(VIMRUNTIME)
 	@mkdir -p $(VIMRUNTIME)/record
 	@find $(DIRS) -type d | while read dir ;  do \
 			mkdir -p $(VIMRUNTIME)/$$dir ; done
+
 release:
 	if [[ -n `which vimup` ]] ; then \
 	fi
@@ -167,11 +167,12 @@ mkrecordscript:
 {{Script}}
 
 record: mkfilelist mkrecordscript
-	vim --noplugin -c "redir! > install.log" -c "so .record.vim" -c "q"
+	# vim --noplugin -c "so .record.vim" -c "q"
+	vim --noplugin -V10install.log -c "so .record.vim" -c "q"
 	@echo "Vim script record making log file: install.log"
 
 rmrecord:
-	rm $(VIMRUNTIME)/record/$(NAME)
+	@rm -vf $(VIMRUNTIME)/record/$(NAME)
 
 clean: clean-bundle-deps
 	rm -f $(RECORD_FILE)

@@ -14,7 +14,6 @@ fun! s:mkmd5(file)
     return ""
   endif
 endf
-set verbose=10
 let files = readfile('.record')
 let package_name = remove(files,0)
 let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }

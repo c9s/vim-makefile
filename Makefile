@@ -85,7 +85,7 @@ fetch_local = @cp -v $(1) $(2) \
 NAME=`basename \`pwd\``
 
 # Files to add to tarball:
-DIRS=`find . -type d | grep -v '.git' | grep -v '.svn'`
+DIRS=`find . -type d | grep -v '.git' | grep -v '.svn' | grep -vE "\.$$"`
 
 # Runtime path to install:
 VIMRUNTIME=~/.vim
@@ -115,12 +115,13 @@ OTHER_FILES=
 # 	  $(call fetch_github,[account id],[project],[branch],[source path],[target path])
 # 	  $(call fetch_url,[file url],[target path])
 # 	  $(call fetch_local,[from],[to])
-include config.mk
+-include config.mk
 
 # }}}
 
 # }}}
 # ======= SECTIONS ======= {{{
+all: install
 
 bundle-deps-init: clean-bundle-deps
 	@echo > ".bundlefiles"
@@ -130,13 +131,12 @@ bundle: bundle-deps-init bundle-deps
 dist: bundle mkfilelist
 	@tar czvHf $(NAME).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
 
-all: install
-
 init-runtime:
 	@mkdir -p $(VIMRUNTIME)
 	@mkdir -p $(VIMRUNTIME)/record
 	@find $(DIRS) -type d | while read dir ;  do \
 			mkdir -p $(VIMRUNTIME)/$$dir ; done
+
 release:
 	if [[ -n `which vimup` ]] ; then \
 	fi
@@ -172,7 +172,6 @@ mkrecordscript:
 		@echo "    return \"\""  >> .record.vim
 		@echo "  endif"  >> .record.vim
 		@echo "endf"  >> .record.vim
-		@echo "set verbose=10"  >> .record.vim
 		@echo "let files = readfile('.record')"  >> .record.vim
 		@echo "let package_name = remove(files,0)"  >> .record.vim
 		@echo "let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }"  >> .record.vim
@@ -183,18 +182,19 @@ mkrecordscript:
 		@echo "redir => output"  >> .record.vim
 		@echo "silent echon record"  >> .record.vim
 		@echo "redir END"  >> .record.vim
-		@echo "let content = join(split(output,\"\\n\"),'')"  >> .record.vim
+		@echo "let content = join(split(output,\"\\\\n\"),'')"  >> .record.vim
 		@echo "let record_file = expand('~/.vim/record/' . package_name )"  >> .record.vim
 		@echo "cal writefile( [content] , record_file )"  >> .record.vim
 		@echo "echo \"Done\""  >> .record.vim
 
 
 record: mkfilelist mkrecordscript
-	vim --noplugin -c "redir! > install.log" -c "so .record.vim" -c "q"
+	# vim --noplugin -c "so .record.vim" -c "q"
+	vim -V10install.log --noplugin -c "so .record.vim" -c "q"
 	@echo "Vim script record making log file: install.log"
 
 rmrecord:
-	rm $(VIMRUNTIME)/record/$(NAME)
+	@rm -vf $(VIMRUNTIME)/record/$(NAME)
 
 clean: clean-bundle-deps
 	rm -f $(RECORD_FILE)
