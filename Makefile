@@ -124,7 +124,12 @@ OTHER_FILES=
 
 # }}}
 # ======= SECTIONS ======= {{{
+
 all: install
+
+check-require:
+	@if [[ -n `which wget` || -n `which curl` || -n `which fetch` ]]; then echo "wget|curl|fetch: OK" ; else echo "wget|curl|fetch: NOT OK" ; fi
+	@if [[ -n `which vim` ]] ; then echo "vim: OK" ; else echo "vim: NOT OK" ; fi
 
 bundle: bundle-deps
 
