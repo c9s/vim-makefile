@@ -3,6 +3,21 @@ Vim-Makefile
 
 A lightweight non-dependency Makefile for install, uninstall, bundle, distribute Vim plugin scripts.
 
+DESCRIPTION
+===========
+
+I wrote this because I saw people using Rakefile to install plugin scripts. but some people doesn't have 
+rake on their system.
+
+GNU `make` is ths most commonly used utility, which is almost in every system,
+so it basically doesn't have other dependencies.
+
+This Makefile provides features to install,uninstall,bundle,distribute vim plugin. it's simple 
+, quick and lightweight.
+
+And I also appended a util `vim-makefile` to fetch the latest Makefile. you can
+simply run `vim-makefile` to generate the Makefile.
+
 INSTALLATION
 ============
 
