@@ -80,6 +80,9 @@ If you want to edit the filelist of vimball:
 
     $ make vimball-edit
 
+To update Makefile:
+
+    $ make update
 
 CUSTOMIZE
 =========
