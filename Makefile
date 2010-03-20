@@ -130,6 +130,7 @@ bundle: bundle-deps
 
 dist: bundle mkfilelist
 	@tar czvHf $(NAME).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
+	@echo "$(NAME).tar.gz is ready."
 
 init-runtime:
 	@mkdir -p $(VIMRUNTIME)
