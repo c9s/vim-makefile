@@ -146,7 +146,7 @@ pure-install:
 	@find $(DIRS) -type f | while read file ; do \
 			cp -v $$file $(VIMRUNTIME)/$$file ; done
 
-install: init-runtime pure-install record
+install: init-runtime bundle pure-install record
 
 uninstall: rmrecord
 	@echo "Uninstalling"
