@@ -85,7 +85,7 @@ fetch_local = @cp -v $(1) $(2) \
 NAME=`basename \`pwd\``
 
 # Files to add to tarball:
-DIRS=`ls -1F | grep /`
+DIRS=`ls -1F | grep / | sed -e 's/\///'`
 
 # Runtime path to install:
 VIMRUNTIME=~/.vim
