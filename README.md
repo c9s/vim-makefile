@@ -55,6 +55,10 @@ To import dependented scripts:
 
 	$ make bundle
 
+To clean up stuff:
+
+	$ make clean
+
 
 CUSTOMIZE
 =========
@@ -90,6 +94,7 @@ Examples:
 
 BUNDLE DEPENDENTED SCRIPTS
 ==========================
+
 You can bundle dependented scripts when making a distribution ,add these
 lines below to your `config.mk` file:
 
@@ -106,3 +111,4 @@ So if you want to make a distribution , you can just type:
 	$ make dist
 
 Then the {plugin_name}.tar.gz will come out.
+
