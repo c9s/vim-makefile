@@ -85,6 +85,7 @@ fetch_local = @cp -v $(1) $(2) \
 
 # Default plugin name
 NAME=`basename \`pwd\``
+VERSION=0.1
 
 # Files to add to tarball:
 DIRS=`ls -1F | grep / | sed -e 's/\///'`
@@ -127,9 +128,8 @@ all: install
 
 bundle: bundle-deps
 
-
 dist: bundle mkfilelist
-	@tar czvHf $(NAME).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
+	@tar czvHf $(NAME)-$(VERSION).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
 	@echo "$(NAME).tar.gz is ready."
 
 init-runtime:

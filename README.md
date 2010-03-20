@@ -68,6 +68,7 @@ is optional , for example:
 
 	NAME=hypergit.vim
 	VIMRUNTIME=~/.vim
+    VERSION=0.2
 
 
 FUNCTIONS
