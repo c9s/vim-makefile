@@ -1,2 +1,9 @@
-#!/usr/bin/env perl
-system( "wget http://github.com/c9s/vim-makefile/raw/master/Makefile" );
+#!/bin/bash
+URL=http://github.com/c9s/vim-makefile/raw/master/Makefile
+if [[ -n `which wget` ]]; then
+	wget -c $URL
+elif [[ -n `which curl` ]]; then
+    curl $URL > Makefile
+elif [[ -n `which fetch` ]]; then
+    fetch $URL
+fi
