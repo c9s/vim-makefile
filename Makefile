@@ -13,9 +13,6 @@ DIRS=autoload \
 	 syntax \
 	 plugin 
 
-
-# =======
-MAKEFILE_VERSION=0.1
 RECORD_FILE=.record
 VIMRUNTIME=~/.vim
 PWD=`pwd`
