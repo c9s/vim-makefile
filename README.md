@@ -13,7 +13,8 @@ GNU `make` is ths most commonly used utility, which is almost in every system,
 so it basically doesn't have other dependencies.
 
 This Makefile provides features to install,uninstall,bundle,distribute vim plugin. it's simple 
-, quick and lightweight.
+, quick and lightweight. And you can also use vim-makefile to generate vimball distribution.
+(More details of vimball, please see `:help vimball` section)
 
 And I also appended a util `vim-makefile` to fetch the latest Makefile. you can
 simply run `vim-makefile` to generate the Makefile.
@@ -78,7 +79,6 @@ To create vimball distribution
 If you want to edit the filelist of vimball:
 
     $ make vimball-edit
-
 
 
 CUSTOMIZE
