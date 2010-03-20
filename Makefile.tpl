@@ -59,6 +59,9 @@ clean:
 	rm -v $(RECORD_FILE)
 	rm install.log
 
+version:
+	@echo version - $(MAKEFILE_VERSION)
+
 #  vim record format:
 #  {
 #           version => 0.2,    # record spec version
