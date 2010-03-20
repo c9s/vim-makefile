@@ -45,37 +45,29 @@ mkfilelist:
 			echo $(VIMRUNTIME)/$$file >> $(RECORD_FILE) ; done
 
 mkrecordscript:
-	@echo "Making Record Script (Vim)"
-	@echo ""  > .record
-	@echo "# vimana record format:"  >> .record
-	@echo "# {"  >> .record
-	@echo "#          version => 0.2,    # record spec version"  >> .record
-	@echo "#          generated_by => 'Vimana-' . $Vimana::VERSION,"  >> .record
-	@echo "#          install_type => 'auto',    # auto , make , rake ... etc"  >> .record
-	@echo "#          package => $self->package_name,"  >> .record
-	@echo "#          files => \@e,"  >> .record
-	@echo "#  }"  >> .record
-	@echo "fun! s:mkmd5(file)"  >> .record
-	@echo "  if executable('md5')"  >> .record
-	@echo "    return system('cat ' . a:file . ' | md5')"  >> .record
-	@echo "  else"  >> .record
-	@echo "    return \"\""  >> .record
-	@echo "  endif"  >> .record
-	@echo "endf"  >> .record
-	@echo "let files = readfile('.record')"  >> .record
-	@echo "let package_name = remove(files,0)"  >> .record
-	@echo "let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }"  >> .record
-	@echo "for file in files "  >> .record
-	@echo "  let md5 = s:mkmd5(file)"  >> .record
-	@echo "  cal add( record.files , {  'checksum': md5 , 'file': file  } )"  >> .record
-	@echo "endfor"  >> .record
-	@echo "redir => output"  >> .record
-	@echo "silent echon record"  >> .record
-	@echo "redir END"  >> .record
-	@echo "let content = join(split(output,\"\\n\"),'')"  >> .record
-	@echo "let record_file = expand('~/.vim/record/' . package_name )"  >> .record
-	@echo "cal writefile( [content] , record_file )"  >> .record
-	@echo "echo \"Done\""  >> .record
+		@echo ""  > .record.vim
+		@echo "fun! s:mkmd5(file)"  >> .record.vim
+		@echo "  if executable('md5')"  >> .record.vim
+		@echo "    return system('cat ' . a:file . ' | md5')"  >> .record.vim
+		@echo "  else"  >> .record.vim
+		@echo "    return \"\""  >> .record.vim
+		@echo "  endif"  >> .record.vim
+		@echo "endf"  >> .record.vim
+		@echo "let files = readfile('.record')"  >> .record.vim
+		@echo "let package_name = remove(files,0)"  >> .record.vim
+		@echo "let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }"  >> .record.vim
+		@echo "for file in files "  >> .record.vim
+		@echo "  let md5 = s:mkmd5(file)"  >> .record.vim
+		@echo "  cal add( record.files , {  'checksum': md5 , 'file': file  } )"  >> .record.vim
+		@echo "endfor"  >> .record.vim
+		@echo "redir => output"  >> .record.vim
+		@echo "silent echon record"  >> .record.vim
+		@echo "redir END"  >> .record.vim
+		@echo "let content = join(split(output,\"\\n\"),'')"  >> .record.vim
+		@echo "let record_file = expand('~/.vim/record/' . package_name )"  >> .record.vim
+		@echo "cal writefile( [content] , record_file )"  >> .record.vim
+		@echo "echo \"Done\""  >> .record.vim
+
 
 record: mkfilelist mkrecordscript
 	vim --noplugin -c "redir! > install.log" -c "so .record.vim" -c "q"
