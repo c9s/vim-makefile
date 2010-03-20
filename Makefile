@@ -164,6 +164,19 @@ mkfilelist:
 	@find $(DIRS) -type f | while read file ; do \
 			echo $(VIMRUNTIME)/$$file >> $(RECORD_FILE) ; done
 
+vimball-edit:
+	find $(DIRS) -type f > .tmp_list
+	vim .tmp_list
+	vim .tmp_list -c ":MkVimball $(NAME)-$(VERSION)" -c "q"
+	@rm -vf .tmp_list
+	@echo "$(NAME)-$(VERSION).vba is ready."
+
+vimball:
+	find $(DIRS) -type f > .tmp_list
+	vim .tmp_list -c ":MkVimball $(NAME)-$(VERSION)" -c "q"
+	@rm -vf .tmp_list
+	@echo "$(NAME)-$(VERSION).vba is ready."
+
 mkrecordscript:
 		@echo ""  > .record.vim
 		@echo "fun! s:mkmd5(file)"  >> .record.vim

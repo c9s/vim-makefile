@@ -59,10 +59,6 @@ To link scripts:
 
     $ make link
 
-To create dist tarball:
-
-	$ make dist
-
 To import dependented scripts:
 
 	$ make bundle
@@ -70,6 +66,19 @@ To import dependented scripts:
 To clean up stuff:
 
 	$ make clean
+
+To create dist tarball:
+
+	$ make dist
+
+To create vimball distribution
+
+    $ make vimball
+
+If you want to edit the filelist of vimball:
+
+    $ make vimball-edit
+
 
 
 CUSTOMIZE
