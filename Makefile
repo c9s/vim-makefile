@@ -54,7 +54,7 @@ fetch_deps = \
 		; fi	 							    \
 		; echo " => $(2)"						\
 		; if [[ ! -z `which wget` ]] ; then 	\
-			wget $(1) -O $(2)  				    \
+			wget -c $(1) -O $(2)  				    \
 		; elif [[ ! -z `which curl` ]] ; then   \
 			curl $(1) > $(2) ;					\
 		; fi  									\
@@ -67,7 +67,7 @@ fetch_github = \
 		; fi	 							    \
 		; echo " => $(5)"						\
 		; if [[ ! -z `which wget` ]] ; then                               \
-			wget http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5)  \
+			wget -c http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5)  \
 		; elif [[ ! -z `which curl` ]] ; then                        	    \
 			curl http://github.com/$(1)/$(2)/raw/$(3)/$(4) > $(5)      \
 		; fi									\
@@ -85,7 +85,7 @@ fetch_local = @cp -v $(1) $(2) \
 NAME=`basename \`pwd\``
 
 # Files to add to tarball:
-DIRS=`find . -type d | grep -v '.git' | grep -v '.svn' | grep -vE "\.$$"`
+DIRS=`ls -1F | grep / | sed -e 's/\///'`
 
 # Runtime path to install:
 VIMRUNTIME=~/.vim
@@ -123,10 +123,8 @@ OTHER_FILES=
 # ======= SECTIONS ======= {{{
 all: install
 
-bundle-deps-init:
-	@echo > ".bundlefiles"
+bundle: bundle-deps
 
-bundle: bundle-deps-init bundle-deps
 
 dist: bundle mkfilelist
 	@tar czvHf $(NAME).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
@@ -200,8 +198,10 @@ clean: clean-bundle-deps
 	rm -f install.log
 
 clean-bundle-deps:
-	if [[ -e .bundlefiles ]] ; then rm -f `cat .bundlefiles` ; fi
-	rm -f .bundlefiles
+	@if [[ -e .bundlefiles ]] ; then \
+		rm -fv `echo \`cat .bundlefiles\``; \
+	fi
+	@rm -fv .bundlefiles
 
 version:
 	@echo version - $(MAKEFILE_VERSION)
