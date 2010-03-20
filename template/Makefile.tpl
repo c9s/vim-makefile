@@ -168,12 +168,14 @@ vimball-edit:
 	find $(DIRS) -type f > .tmp_list
 	vim .tmp_list
 	vim .tmp_list -c ":MkVimball $(NAME)-$(VERSION)" -c "q"
-	rm .tmp_list
+	@rm -vf .tmp_list
+	@echo "$(NAME)-$(VERSION).vba is ready."
 
 vimball:
 	find $(DIRS) -type f > .tmp_list
 	vim .tmp_list -c ":MkVimball $(NAME)-$(VERSION)" -c "q"
-	rm .tmp_list
+	@rm -vf .tmp_list
+	@echo "$(NAME)-$(VERSION).vba is ready."
 
 mkrecordscript:
 {{Script}}
