@@ -8,7 +8,11 @@
 "          files => \@e,
 "  }
 fun! s:mkmd5(file)
-  return system('cat ' . a:file . ' | md5')
+  if executable('md5')
+    return system('cat ' . a:file . ' | md5')
+  else
+    return ""
+  endif
 endf
 let files = readfile('.record')
 let package_name = remove(files,0)
