@@ -143,8 +143,7 @@ release:
 
 pure-install:
 	@echo "Installing"
-	@find $(DIRS) -type f
-	#@find $(DIRS) -type f | while read file ; do \
+	@find $(DIRS) -type f | while read file ; do \
 			cp -v $$file $(VIMRUNTIME)/$$file ; done
 
 install: init-runtime bundle pure-install record
