@@ -37,57 +37,96 @@
 #           files => \@e,
 # }
 # }}}
-# INTERNAL {{{
+
+# INTERNAL VARIABLES {{{
+
 RECORD_FILE=.record
-VIMRUNTIME=~/.vim
 PWD=`pwd`
 README_FILES=`find . -type f -iname "README*"`
 README_FILES=`find . -type f -iname "README*"`
-DIRS=`find . -type d | grep -v '.git' | grep -v '.svn'`
 
 # FUNCTIONS {{{
+
+# fetch script from an url
 fetch_deps = \
-		if [[ -e $(2) ]] ; then 				\
-			exit;								\
-		fi	 								    \
-		if [[ ! -z `which wget` ]] ; then 		\
-			wget $(1) -O $(2) ; 				\
-		elif [[ ! -z `which curl` ]] ; then     \
+		@if [[ -e $(2) ]] ; then 				\
+			exit								\
+		; fi	 							    \
+		; echo " => $(2)"						\
+		; if [[ ! -z `which wget` ]] ; then 	\
+			wget $(1) -O $(2)  				    \
+		; elif [[ ! -z `which curl` ]] ; then   \
 			curl $(1) > $(2) ;					\
-		fi  									\
-		echo $(2) >> .bundlefiles
+		; fi  									\
+		; echo $(2) >> .bundlefiles
 
+# fetch script from github
 fetch_github = \
-		if [[ -e $(5) ]] ; then 				\
-			exit;								\
-		fi	 								    \
-		if [[ ! -z `which wget` ]] ; then                               \
-			wget --progress=dot http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5) ; \
-		elif [[ ! -z `which curl` ]] ; then                        	    \
-			curl http://github.com/$(1)/$(2)/raw/$(3)/$(4) > $(5)     ; \
-		fi									\
-		echo $(5) >> .bundlefiles
+		@if [[ -e $(5) ]] ; then 				\
+			exit								\
+		; fi	 							    \
+		; echo " => $(5)"						\
+		; if [[ ! -z `which wget` ]] ; then                               \
+			wget http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5)  \
+		; elif [[ ! -z `which curl` ]] ; then                        	    \
+			curl http://github.com/$(1)/$(2)/raw/$(3)/$(4) > $(5)      \
+		; fi									\
+		; echo $(5) >> .bundlefiles
+
+# fetch script from local file
 fetch_local = @cp -v $(1) $(2) \
-		echo $(2) >> .bundlefiles
+		; @echo $(2) >> .bundlefiles
 
 # }}}
 # }}}
-# USER CONFIGURATION {{{
+# ======= DEFAULT CONFIG ======= {{{
 
-NAME=PLUGIN_NAME
-# Custom dir list:
-#  DIRS=autoload after doc syntax plugin 
+# Default plugin name
+NAME=`basename \`pwd\``
 
 # Files to add to tarball:
+DIRS=`find . -type d | grep -v '.git' | grep -v '.svn'`
+
+# Runtime path to install:
+VIMRUNTIME=~/.vim
+
+# Other Files to be added:
 OTHER_FILES=
 
-bundle:
-# $(call fetch_github,[account id],[project],[branch],[source path],[target path])
-# $(call fetch_url,[file url],[target path])
-# $(call fetch_local,[from],[to])
+# ======== USER CONFIG ======= {{{
+#   please write config in config.mk
+#   this will override default config
+#
+# Custom Name:
+#
+# 	NAME=[plugin name]
+#
+# Custom dir list:
+#
+# 	DIRS=autoload after doc syntax plugin 
+#
+# Files to add to tarball:
+#
+# 	OTHER_FILES=
+# 
+# Bundle dependent scripts:
+#
+# 	bundle-deps:
+# 	  $(call fetch_github,[account id],[project],[branch],[source path],[target path])
+# 	  $(call fetch_url,[file url],[target path])
+# 	  $(call fetch_local,[from],[to])
+include config.mk
 
 # }}}
-# SECTIONS {{{
+
+# }}}
+# ======= SECTIONS ======= {{{
+
+bundle-deps-init: clean-bundle-deps
+	@echo > ".bundlefiles"
+
+bundle: bundle-deps-init bundle-deps
+
 dist: bundle mkfilelist
 	@tar czvHf $(NAME).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
 
@@ -132,12 +171,15 @@ record: mkfilelist mkrecordscript
 	@echo "Vim script record making log file: install.log"
 
 rmrecord:
-	rm -v $(VIMRUNTIME)/record/$(NAME)
+	rm $(VIMRUNTIME)/record/$(NAME)
 
-clean:
-	rm -v $(RECORD_FILE)
-	rm install.log
-	if [[ -e .bundlefiles ]]; then rm -v `cat .bundlefiles` ; fi
+clean: clean-bundle-deps
+	rm -f $(RECORD_FILE)
+	rm -f install.log
+
+clean-bundle-deps:
+	if [[ -e .bundlefiles ]] ; then rm -f `cat .bundlefiles` ; fi
+	rm -f .bundlefiles
 
 version:
 	@echo version - $(MAKEFILE_VERSION)

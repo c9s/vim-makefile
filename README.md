@@ -1,7 +1,7 @@
 Vim-Makefile
 ============
 
-Makefile for installing ,uninstalling Vim plugins.
+Makefile for installing, uninstalling Vim plugin scripts.
 
 
 FUNCTIONS
