@@ -164,6 +164,11 @@ mkfilelist:
 	@find $(DIRS) -type f | while read file ; do \
 			echo $(VIMRUNTIME)/$$file >> $(RECORD_FILE) ; done
 
+vimball:
+	find $(DIRS) -type f > .tmp_list
+	vim .tmp_list -c ":MkVimball $(NAME)-$(VERSION)" -c "q"
+	rm .tmp_list
+
 mkrecordscript:
 {{Script}}
 
