@@ -1,4 +1,3 @@
-
 Vim-Makefile
 ============
 
@@ -42,11 +41,12 @@ or just bundle scripts from elsewhere:
 USAGE
 =====
 
-put this Makefile to your plugin directory, and edit plugin name in Makefile.
+Put this Makefile to your plugin directory, and edit plugin name in Makefile.
 your scripts should be put in {type}/ direcotry. for example:
     
     plugin/util.vim
     plugin/
+	autoload/blah.vim
 
 
 To install scripts:
@@ -60,4 +60,9 @@ To uninstall scripts:
 To link scripts:
 
     $ make link
+
+To create dist tarball:
+
+	$ make dist
+
 
