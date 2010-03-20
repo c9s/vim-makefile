@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-open FH  , "<" , "record.vim";
+open FH  , "<" , "template/record.vim";
 my @lines = <FH>;
 chomp(@lines);
 close FH;
@@ -16,7 +16,7 @@ for (@lines) {
     $cnt++;
 }
 
-open IN, "< Makefile.tpl";
+open IN, "< template/Makefile.tpl";
 local $/;
 my $makefile = <IN>;
 $makefile =~ s/{{Script}}/$content/s;
