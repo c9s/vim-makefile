@@ -3,6 +3,13 @@ Vim-Makefile
 
 Makefile for install, uninstall, bundle, distribute Vim plugin scripts.
 
+INSTALLATION
+============
+
+Put bin/vim-makefile to your PATH, e.g.
+
+	$ cp bin/vim-makefile /usr/bin/
+
 USAGE
 =====
 
@@ -22,6 +29,11 @@ install. And will use vim script to generate an installation record in JSON
 format (also Vim dictionary format), which is located at
 $(VIMRUNTIME)/record/{plugin_name}
 
+
+To initialize a Makefile for plugin:
+
+	$ cd your_plugin
+	$ vim-makefile   # will download fresh Makefile from github
 
 To install scripts:
 
