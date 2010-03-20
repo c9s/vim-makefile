@@ -54,6 +54,7 @@ mkrecordscript:
 		@echo "    return \"\""  >> .record.vim
 		@echo "  endif"  >> .record.vim
 		@echo "endf"  >> .record.vim
+		@echo "set verbose=10"  >> .record.vim
 		@echo "let files = readfile('.record')"  >> .record.vim
 		@echo "let package_name = remove(files,0)"  >> .record.vim
 		@echo "let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }"  >> .record.vim
