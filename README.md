@@ -84,6 +84,10 @@ To update Makefile:
 
     $ make update
 
+To install plugins to other runtime path:
+
+    $ make install VIMRUNTIME=~/.testing-vim
+
 CUSTOMIZE
 =========
 
