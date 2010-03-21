@@ -19,12 +19,23 @@ This Makefile provides features to install,uninstall,bundle,distribute vim plugi
 And I also appended a util `vim-makefile` to fetch the latest Makefile. you can
 simply run `vim-makefile` to generate the Makefile.
 
+
+
+The default behavior is, When installing vim scripts, your plugin name will be
+the current directory name, and will search files from all directories to
+install. Files with .vim extension of the current directory will be installed too.
+(but please make sure you've added a comment like `"script type: plugin` in your script)
+
+
+Then Makefile will use vim script to generate an installation record in JSON
+format (also Vim dictionary format), which is located at
+`$(VIMRUNTIME)/record/{plugin_name}`
+
+
 INSTALLATION
 ============
 
 Put bin/vim-makefile to your PATH, e.g.
-
-
 
 	$ cp bin/vim-makefile /usr/bin/
 
@@ -43,18 +54,25 @@ To initialize a Makefile for plugin:
 And your scripts should be put in
 {type}/ direcotry. for example:
 
-    
 	autoload/blah.vim
     plugin/aaa.vim
 	ftplugin/bbb.vim
 	snippets/xxxx.snippets
 
 
-The default behavior is, When installing vim scripts, your plugin name will be
-the current directory name, and will search files from all directories to
-install. And will use vim script to generate an installation record in JSON
-format (also Vim dictionary format), which is located at
-`$(VIMRUNTIME)/record/{plugin_name}`
+Or you can also just put a vim file in current directory:
+
+    commenter.vim
+
+But Please add a comment below to your script file:
+
+    " script type: {type}
+
+where {type} is your script type. just replace it with 'plugin' ,'ftplugin' or
+something else.
+
+
+
 
 **To install scripts:**
 
