@@ -16,8 +16,8 @@ fun! s:mkmd5(file)
 endf
 let files = readfile('.record')
 let package_name = remove(files,0)
-let version      = remove(files,0)
-let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'script_version': version , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }
+let script_version      = remove(files,0)
+let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'script_version': script_version , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }
 for file in files 
   let md5 = s:mkmd5(file)
   cal add( record.files , {  'checksum': md5 , 'file': file  } )
