@@ -168,7 +168,7 @@ link: init-runtime
 
 mkfilelist:
 	@echo $(NAME) > $(RECORD_FILE)
-	@echo $(VERSION) > $(RECORD_FILE)
+	@echo $(VERSION) >> $(RECORD_FILE)
 	@find $(DIRS) -type f | while read file ; do \
 			echo $(VIMRUNTIME)/$$file >> $(RECORD_FILE) ; done
 
