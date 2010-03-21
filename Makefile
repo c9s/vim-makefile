@@ -196,8 +196,8 @@ mkrecordscript:
 		@echo "endf"  >> .record.vim
 		@echo "let files = readfile('.record')"  >> .record.vim
 		@echo "let package_name = remove(files,0)"  >> .record.vim
-		@echo "let version      = remove(files,0)"  >> .record.vim
-		@echo "let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'script_version': version , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }"  >> .record.vim
+		@echo "let script_version      = remove(files,0)"  >> .record.vim
+		@echo "let record = { 'version' : 0.3 , 'generated_by': 'Vim-Makefile' , 'script_version': script_version , 'install_type' : 'makefile' , 'package' : package_name , 'files': [  ] }"  >> .record.vim
 		@echo "for file in files "  >> .record.vim
 		@echo "  let md5 = s:mkmd5(file)"  >> .record.vim
 		@echo "  cal add( record.files , {  'checksum': md5 , 'file': file  } )"  >> .record.vim
