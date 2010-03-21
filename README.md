@@ -52,7 +52,7 @@ To initialize a Makefile for plugin:
 
 
 And your scripts should be put in
-{type}/ direcotry. for example:
+{type}/ directories. for example:
 
 	autoload/blah.vim
     plugin/aaa.vim
