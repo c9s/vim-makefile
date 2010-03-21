@@ -24,23 +24,31 @@ INSTALLATION
 
 Put bin/vim-makefile to your PATH, e.g.
 
+
+
 	$ cp bin/vim-makefile /usr/bin/
+
+
 
 USAGE
 =====
 
 To initialize a Makefile for plugin:
 
+
 	$ cd your_plugin
 	$ vim-makefile   # will download fresh Makefile from github
 
+
 And your scripts should be put in
 {type}/ direcotry. for example:
+
     
 	autoload/blah.vim
     plugin/aaa.vim
 	ftplugin/bbb.vim
 	snippets/xxxx.snippets
+
 
 The default behavior is, When installing vim scripts, your plugin name will be
 the current directory name, and will search files from all directories to
@@ -48,43 +56,43 @@ install. And will use vim script to generate an installation record in JSON
 format (also Vim dictionary format), which is located at
 `$(VIMRUNTIME)/record/{plugin_name}`
 
-To install scripts:
+**To install scripts:**
 
     $ make install
 
-To uninstall scripts:
+**To uninstall scripts:**
 
     $ make uninstall
 
-To link scripts:
+**To link scripts:**
 
     $ make link
 
-To import dependented scripts:
+**To import dependented scripts:**
 
 	$ make bundle
 
-To clean up stuff:
+**To clean up stuff:**
 
 	$ make clean
 
-To create dist tarball:
+**To create dist tarball:**
 
 	$ make dist
 
-To create vimball distribution
+**To create vimball distribution:**
 
     $ make vimball
 
-If you want to edit the filelist of vimball:
+**If you want to edit the filelist of vimball:**
 
     $ make vimball-edit
 
-To update Makefile:
+**To update Makefile:**
 
     $ make update
 
-To install plugins to other runtime path:
+**To install plugins to other runtime path:**
 
     $ make install VIMRUNTIME=~/.testing-vim
 
