@@ -23,8 +23,8 @@ simply run `vim-makefile` to generate the Makefile.
 
 
 The default behavior is, When installing vim scripts, your plugin name will be
-the current directory name, and will search files from all directories to
-install. Files with .vim extension of the current directory will be installed too.
+current directory name, and will search files from all directories to
+install. Files with .vim extension of current directory will be installed too.
 (but please make sure you've added a comment like `"script type: plugin` in your script)
 
 
