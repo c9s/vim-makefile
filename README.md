@@ -6,10 +6,11 @@ A lightweight non-dependency Makefile for install, uninstall, bundle, distribute
 DESCRIPTION
 ===========
 
-I wrote this because I saw people using Rakefile to install plugin scripts. but some people doesn't have 
-rake on their system.
+I wrote this because I saw people using Rakefile to install plugin scripts. but
+some people don't have rake on their system, and the Rakefile is not flexible
+for users to extend rules and which can't bundle dependented scripts too.
 
-GNU `make` is ths most commonly used utility, which is almost in every system,
+GNU's `make` is ths most commonly used utility, which is almost in every system,
 so it basically doesn't have other dependencies.
 
 This Makefile provides features to install,uninstall,bundle,distribute vim plugin. it's simple 
