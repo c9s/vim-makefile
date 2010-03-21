@@ -172,8 +172,7 @@ check-require:
 	@if [[ -n `which vim` ]] ; then echo "vim: OK" ; else echo "vim: NOT OK" ; fi
 
 
-
-init-config:
+config:
 	@rm -f $(CONFIG_FILE)
 	@echo "NAME="                                                                                      >> $(CONFIG_FILE)
 	@echo "VERSION="                                                                                           >> $(CONFIG_FILE)
