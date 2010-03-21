@@ -60,8 +60,29 @@ README_FILES=`find . -type f -iname "README*"`
 README_FILES=`find . -type f -iname "README*"`
 WGET_OPT=-c -nv
 CURL_OPT=
+RECORD_SCRIPT=.mkrecord
 
-# FUNCTIONS {{{
+# INTERNAL FUNCTIONS {{{
+record_file = \
+		PTYPE=`cat $(1) | perl -nle 'print $$1 if /^"\s*script\s*type:\s*(\S*)$$/i'` ;\
+		echo $(VIMRUNTIME)/$$PTYPE/$(1) >> $(2)
+
+# }}}
+
+# PUBLIC FUNCTIONS {{{
+
+# install file by inspecting content
+install_file = \
+		PTYPE=`cat $(1) | perl -nle 'print $$1 if /^"\s*script\s*type:\s*(\S*)$$/i'` ;\
+		cp -v $(1) $(VIMRUNTIME)/$$PTYPE/$(1)
+
+link_file = \
+		PTYPE=`cat $(1) | perl -nle 'print $$1 if /^"\s*script\s*type:\s*(\S*)$$/i'` ;\
+		cp -v $(1) $(VIMRUNTIME)/$$PTYPE/$(1)
+
+unlink_file = \
+		PTYPE=`cat $(1) | perl -nle 'print $$1 if /^"\s*script\s*type:\s*(\S*)$$/i'` ;\
+		rm -fv $(VIMRUNTIME)/$$PTYPE/$(1)
 
 # fetch script from an url
 fetch_deps = \
@@ -108,7 +129,7 @@ DIRS=`ls -1F | grep / | sed -e 's/\///'`
 VIMRUNTIME=~/.vim
 
 # Other Files to be added:
-OTHER_FILES=
+FILES=`ls -1 | grep '.vim$$'`
 
 # ======== USER CONFIG ======= {{{
 #   please write config in config.mk
@@ -124,7 +145,7 @@ OTHER_FILES=
 #
 # Files to add to tarball:
 #
-# 	OTHER_FILES=
+# 	FILES=
 # 
 # Bundle dependent scripts:
 #
@@ -132,30 +153,54 @@ OTHER_FILES=
 # 	  $(call fetch_github,[account id],[project],[branch],[source path],[target path])
 # 	  $(call fetch_url,[file url],[target path])
 # 	  $(call fetch_local,[from],[to])
--include config.mk
+
+
+CONFIG_FILE=config.mk
+-include ~/.vimauthor.mk
+-include $(CONFIG_FILE)
 
 # }}}
-
 # }}}
 # ======= SECTIONS ======= {{{
+-include ext.mk
 
 all: install
+
 
 check-require:
 	@if [[ -n `which wget` || -n `which curl` || -n `which fetch` ]]; then echo "wget|curl|fetch: OK" ; else echo "wget|curl|fetch: NOT OK" ; fi
 	@if [[ -n `which vim` ]] ; then echo "vim: OK" ; else echo "vim: NOT OK" ; fi
 
+
+
+init-config:
+	@rm -f $(CONFIG_FILE)
+	@echo "NAME="                                                                                      >> $(CONFIG_FILE)
+	@echo "VERSION="                                                                                           >> $(CONFIG_FILE)
+	@echo "#DIRS="
+	@echo "#FILES="
+	@echo ""                                                                                           >> $(CONFIG_FILE)
+	@echo "bundle-deps:"                                                                               >> $(CONFIG_FILE)
+	@echo "\t\t\$$(call fetch_github,ID,REPOSITORY,BRANCH,PATH,TARGET_PATH)" >> $(CONFIG_FILE)
+	@echo "\t\t\$$(call fetch_url,FILE_URL,TARGET_PATH)"                                           >> $(CONFIG_FILE)
+
+
+init-author:
+	@echo "AUTHOR=" > ~/.vimauthor.mk
+
+bundle-deps:
+
 bundle: bundle-deps
 
 dist: bundle mkfilelist
-	@tar czvHf $(NAME)-$(VERSION).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(OTHER_FILES)
+	@tar czvHf $(NAME)-$(VERSION).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(FILES)
 	@echo "$(NAME).tar.gz is ready."
 
 init-runtime:
 	@mkdir -vp $(VIMRUNTIME)
 	@mkdir -vp $(VIMRUNTIME)/record
-	@find $(DIRS) -type d | while read dir ;  do \
-			mkdir -vp $(VIMRUNTIME)/$$dir ; done
+	@if [[ -n "$(DIRS)" ]] ; then find $(DIRS) -type d | while read dir ;  do \
+			mkdir -vp $(VIMRUNTIME)/$$dir ; done ; fi
 
 release:
 	if [[ -n `which vimup` ]] ; then \
@@ -163,26 +208,41 @@ release:
 
 pure-install:
 	@echo "Installing"
-	@find $(DIRS) -type f | while read file ; do \
-			cp -v $$file $(VIMRUNTIME)/$$file ; done
+	@if [[ -n "$(DIRS)" ]] ; then find $(DIRS) -type f | while read file ; do \
+			cp -v $$file $(VIMRUNTIME)/$$file ; done ; fi
+	@echo "$(FILES)" | while read vimfile ; do \
+		if [[ -n $$vimfile ]] ; then \
+			$(call install_file,$$vimfile) ; fi ; done
 
 install: init-runtime bundle pure-install record
 
-uninstall: rmrecord
+
+uninstall-files:
 	@echo "Uninstalling"
-	@find $(DIRS) -type f | while read file ; do \
-			rm -fv $(VIMRUNTIME)/$$file ; done
+	@if [[ -n "$(DIRS)" ]] ; then find $(DIRS) -type f | while read file ; do \
+			rm -fv $(VIMRUNTIME)/$$file ; done ; fi
+	@echo "$(FILES)" | while read vimfile ; do \
+		if [[ -n $$vimfile ]] ; then \
+			$(call unlink_file,$$vimfile) ; fi ; done
+
+uninstall: uninstall-files rmrecord
 
 link: init-runtime
 	@echo "Linking"
-	@find $(DIRS) -type f | while read file ; do \
-			ln -sfv $(PWD)/$$file $(VIMRUNTIME)/$$file ; done
+	@if [[ -n "$(DIRS)" ]]; then find $(DIRS) -type f | while read file ; do \
+			ln -sfv $(PWD)/$$file $(VIMRUNTIME)/$$file ; done ; fi
+	@echo "$(FILES)" | while read vimfile ; do \
+		if [[ -n $$vimfile ]] ; then \
+			$(call link_file,$$vimfile) ; fi ; done
 
 mkfilelist:
 	@echo $(NAME) > $(RECORD_FILE)
 	@echo $(VERSION) >> $(RECORD_FILE)
-	@find $(DIRS) -type f | while read file ; do \
-			echo $(VIMRUNTIME)/$$file >> $(RECORD_FILE) ; done
+	@if [[ -n "$(DIRS)" ]] ; then find $(DIRS) -type f | while read file ; do \
+			echo $(VIMRUNTIME)/$$file >> $(RECORD_FILE) ; done ; fi
+	@echo "$(FILES)" | while read vimfile ; do \
+		if [[ -n $$vimfile ]] ; then \
+			$(call record_file,$$vimfile,$(RECORD_FILE)) ; fi ; done
 
 vimball-edit:
 	find $(DIRS) -type f > .tmp_list
@@ -201,10 +261,11 @@ mkrecordscript:
 {{Script}}
 
 record: mkfilelist mkrecordscript
-	vim --noplugin -V10install.log -c "so .record.vim" -c "q"
+	vim --noplugin -V10install.log -c "so $(RECORD_SCRIPT)" -c "q"
 	@echo "Vim script record making log: install.log"
 
 rmrecord:
+	@echo "Removing Record"
 	@rm -vf $(VIMRUNTIME)/record/$(NAME)
 
 clean: clean-bundle-deps

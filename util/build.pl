@@ -11,8 +11,8 @@ for (@lines) {
     s/\\/\\\\\\\\/g;
     s/"/\\"/g;
     $content .= qq{\t\t\@echo "$_" };
-    $content .= qq{ > .record.vim\n} if $cnt == 0 ;
-    $content .= qq{ >> .record.vim\n} if $cnt > 0 ;
+    $content .= qq{ >  \$(RECORD_SCRIPT)\n} if $cnt == 0 ;
+    $content .= qq{ >> \$(RECORD_SCRIPT)\n} if $cnt > 0 ;
     $cnt++;
 }
 
