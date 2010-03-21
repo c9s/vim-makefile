@@ -118,6 +118,8 @@ something else.
 CUSTOMIZE
 =========
 
+**config.mk**
+
 To customize makefile config , you can simply create a `config.mk` file , which
 is optional , for example:
 
@@ -128,6 +130,10 @@ This will generate `config.mk`, now you can edit the file:
 	NAME=hypergit.vim
 	VIMRUNTIME=~/.vim
     VERSION=0.2
+
+**~/vimauthor.mk**
+
+_TODO_
 
 FUNCTIONS
 =========
