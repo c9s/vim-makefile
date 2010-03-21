@@ -85,15 +85,15 @@ unlink_file = \
 		rm -fv $(VIMRUNTIME)/$$PTYPE/$(1)
 
 # fetch script from an url
-fetch_deps = \
+fetch_url = \
 		@if [[ -e $(2) ]] ; then 				\
 			exit								\
 		; fi	 							    \
 		; echo " => $(2)"						\
-		; if [[ ! -z `which wget` ]] ; then 	\
+		; if [[ ! -z `which curl` ]] ; then   \
+			curl $(CURL_OPT) $(1) -o $(2) ;					\
+		; elif [[ ! -z `which wget` ]] ; then 	\
 			wget $(WGET_OPT) $(1) -O $(2)  				    \
-		; elif [[ ! -z `which curl` ]] ; then   \
-			curl $(CURL_OPT) $(1) > $(2) ;					\
 		; fi  									\
 		; echo $(2) >> .bundlefiles
 
@@ -103,10 +103,10 @@ fetch_github = \
 			exit								\
 		; fi	 							    \
 		; echo " => $(5)"						\
-		; if [[ ! -z `which wget` ]] ; then                               \
+		; if [[ ! -z `which curl` ]] ; then                        	    \
+			curl $(CURL_OPT) http://github.com/$(1)/$(2)/raw/$(3)/$(4) -o $(5)      \
+		; elif [[ ! -z `which wget` ]] ; then                               \
 			wget $(WGET_OPT) http://github.com/$(1)/$(2)/raw/$(3)/$(4) -O $(5)  \
-		; elif [[ ! -z `which curl` ]] ; then                        	    \
-			curl $(CURL_OPT) http://github.com/$(1)/$(2)/raw/$(3)/$(4) > $(5)      \
 		; fi									\
 		; echo $(5) >> .bundlefiles
 
@@ -270,20 +270,23 @@ rmrecord:
 
 clean: clean-bundle-deps
 	@rm -vf $(RECORD_FILE)
+	@rm -vf $(RECORD_SCRIPT)
 	@rm -vf install.log
 
 clean-bundle-deps:
+	@echo "Removing Bundled scripts..."
 	@if [[ -e .bundlefiles ]] ; then \
 		rm -fv `echo \`cat .bundlefiles\``; \
 	fi
 	@rm -fv .bundlefiles
 
 update:
-	URL=http://github.com/c9s/vim-makefile/raw/master/Makefile ; \
+	@echo "Updating Makefile..."
+	@URL=http://github.com/c9s/vim-makefile/raw/master/Makefile ; \
+	if [[ -n `which curl` ]]; then \
+		curl $$URL -o Makefile ; \
 	if [[ -n `which wget` ]]; then \
 		wget -c $$URL ; \
-	elif [[ -n `which curl` ]]; then \
-		curl $$URL > Makefile ; \
 	elif [[ -n `which fetch` ]]; then \
 		fetch $$URL ; \
 	fi
