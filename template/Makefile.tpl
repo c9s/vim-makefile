@@ -61,6 +61,7 @@ README_FILES=`find . -type f -iname "README*"`
 WGET_OPT=-c -nv
 CURL_OPT=
 RECORD_SCRIPT=.mkrecord
+TAR=tar czvHf
 
 # INTERNAL FUNCTIONS {{{
 record_file = \
@@ -192,7 +193,7 @@ bundle-deps:
 bundle: bundle-deps
 
 dist: bundle mkfilelist
-	@tar czvHf $(NAME)-$(VERSION).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(FILES)
+	@$(TAR) $(NAME)-$(VERSION).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(FILES)
 	@echo "$(NAME).tar.gz is ready."
 
 init-runtime:
