@@ -271,6 +271,7 @@ clean: clean-bundle-deps
 	@rm -vf $(RECORD_FILE)
 	@rm -vf $(RECORD_SCRIPT)
 	@rm -vf install.log
+	@rm -vf *.tar.gz
 
 clean-bundle-deps:
 	@echo "Removing Bundled scripts..."
