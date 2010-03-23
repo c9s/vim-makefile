@@ -186,3 +186,7 @@ Setup SHELL env in Makefile or config.mk to let Makefile work.
 
     SHELL = /opt/local/bin/bash
 
+Then run:
+
+    $ gmake install
+
