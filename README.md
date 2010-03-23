@@ -40,8 +40,6 @@ Put bin/vim-makefile to your PATH, e.g.
 
 	$ cp bin/vim-makefile /usr/bin/
 
-
-
 USAGE
 =====
 
@@ -156,7 +154,6 @@ Examples:
 
 	$(call fetch_url,http://......,plugin/xxxx.vim)
 
-
 BUNDLE DEPENDENTED SCRIPTS
 ==========================
 
@@ -175,5 +172,17 @@ So if you want to make a distribution , you can just type:
 
 	$ make dist
 
-Then the {plugin_name}.tar.gz will come out.
+Then the {plugin\_name}.tar.gz will come out.
+
+
+FREEBSD
+=======
+
+For users are using FreeBSD as platform. please execute `gmake` (GNU Makefile) instead of `make`.
+
+And ensure your `gmake` is using bash shell.
+
+Setup SHELL env in Makefile or config.mk to let Makefile work.
+
+    SHELL = /opt/local/bin/bash
 
