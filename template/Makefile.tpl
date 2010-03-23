@@ -130,7 +130,7 @@ DIRS=`ls -1F | grep / | sed -e 's/\///'`
 VIMRUNTIME=~/.vim
 
 # Other Files to be added:
-FILES=`ls -1 | grep '.vim$$'`
+FILES=`ls -1 | grep '.vim$$'` Makefile *.mk README*
 
 # ======== USER CONFIG ======= {{{
 #   please write config in config.mk
