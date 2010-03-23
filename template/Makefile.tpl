@@ -194,7 +194,7 @@ bundle: bundle-deps
 
 dist: bundle mkfilelist
 	@$(TAR) $(NAME)-$(VERSION).tar.gz --exclude '*.svn' --exclude '.git' $(DIRS) $(README_FILES) $(FILES)
-	@echo "$(NAME).tar.gz is ready."
+	@echo "$(NAME)-$(VERSION).tar.gz is ready."
 
 init-runtime:
 	@mkdir -vp $(VIMRUNTIME)
