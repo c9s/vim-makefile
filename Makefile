@@ -114,6 +114,13 @@ fetch_github = \
 fetch_local = @cp -v $(1) $(2) \
 		; @echo $(2) >> .bundlefiles
 
+# 1: NAME , 2: URI
+dep_from_git = \
+		D=/tmp/$(1)-$$RANDOM ; git clone $(2) $$D ; cd $$D ; make install ; 
+
+dep_from_svn = \
+		D=/tmp/$(1)-$$RANDOM ; svn checkout $(2) $$D ; cd $$D ; make install ;
+
 # }}}
 # }}}
 # ======= DEFAULT CONFIG ======= {{{
