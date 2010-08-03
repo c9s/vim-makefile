@@ -162,6 +162,7 @@ MKFILES=Makefile `ls -1 | grep '.mk$$'`
 # 	  $(call fetch_url,[file url],[target path])
 # 	  $(call fetch_local,[from],[to])
 
+SHELL=bash
 
 CONFIG_FILE=config.mk
 -include ~/.vimauthor.mk
@@ -214,6 +215,7 @@ release:
 	fi
 
 pure-install:
+	@echo "Using Shell:" $(SHELL) 
 	@echo "Installing"
 	@if [[ -n "$(DIRS)" ]] ; then find $(DIRS) -type f | while read file ; do \
 			cp -v $$file $(VIMRUNTIME)/$$file ; done ; fi
