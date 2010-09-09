@@ -289,12 +289,14 @@ mkrecordscript:
 		@echo "let content = join(split(output,\"\\\\n\"),'')"  >> $(RECORD_SCRIPT)
 		@echo "let record_file = expand('~/.vim/record/' . package_name )"  >> $(RECORD_SCRIPT)
 		@echo "cal writefile( [content] , record_file )"  >> $(RECORD_SCRIPT)
+		@echo "cal delete('.record')"  >> $(RECORD_SCRIPT)
 		@echo "echo \"Done\""  >> $(RECORD_SCRIPT)
 
 
 record: mkfilelist mkrecordscript
 	vim --noplugin -V10install.log -c "so $(RECORD_SCRIPT)" -c "q"
 	@echo "Vim script record making log: install.log"
+#	@rm -vf $(RECORD_FILE)
 
 rmrecord:
 	@echo "Removing Record"
