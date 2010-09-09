@@ -1,4 +1,7 @@
 #!/bin/bash
+if [[ -e Makefile ]] ; then
+	mv Makefile Makefile.old
+fi
 URL=http://github.com/c9s/vim-makefile/raw/master/Makefile
 if [[ -n `which wget` ]]; then
 	wget -c $URL
