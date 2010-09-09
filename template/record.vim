@@ -28,4 +28,5 @@ redir END
 let content = join(split(output,"\n"),'')
 let record_file = expand('~/.vim/record/' . package_name )
 cal writefile( [content] , record_file )
+cal delete('.record')
 echo "Done"

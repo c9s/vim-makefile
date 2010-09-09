@@ -272,6 +272,7 @@ mkrecordscript:
 record: mkfilelist mkrecordscript
 	vim --noplugin -V10install.log -c "so $(RECORD_SCRIPT)" -c "q"
 	@echo "Vim script record making log: install.log"
+#	@rm -vf $(RECORD_FILE)
 
 rmrecord:
 	@echo "Removing Record"
