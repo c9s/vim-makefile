@@ -262,7 +262,7 @@ vimball-edit:
 
 vimball:
 	find $(DIRS) -type f > .tmp_list
-	vim .tmp_list -c ":MkVimball $(NAME)-$(VERSION)" -c "q"
+	vim .tmp_list -c ":MkVimball $(NAME)-$(VERSION) ." -c "q"
 	@rm -vf .tmp_list
 	@echo "$(NAME)-$(VERSION).vba is ready."
 
