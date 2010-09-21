@@ -214,14 +214,16 @@ CONFIG_FILE=config.mk
 all: install-deps install
 
 install-deps:
+	# check required binaries
 	[[ -n $$(which git) ]]
 	[[ -n $$(which bash) ]]
+	[[ -n $$(which vim) ]]
+	[[ -n $$(which wget) || -n $$(which curl) ]]
 	$(call install_git_sources)
 
 check-require:
 	@if [[ -n `which wget` || -n `which curl` || -n `which fetch` ]]; then echo "wget|curl|fetch: OK" ; else echo "wget|curl|fetch: NOT OK" ; fi
 	@if [[ -n `which vim` ]] ; then echo "vim: OK" ; else echo "vim: NOT OK" ; fi
-
 
 config:
 	@rm -f $(CONFIG_FILE)
