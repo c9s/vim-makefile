@@ -129,6 +129,17 @@ This will generate `config.mk`, now you can edit the file:
 	VIMRUNTIME=~/.vim
     VERSION=0.2
 
+### To define dependencies
+
+add `GIT_SOURCES` macro to your config.mk
+
+    GIT_SOURCES= \
+        git@github.com:c9s/html5.vim.git \
+        git@github.com:c9s/perlomni.vim.git
+
+    # dependency checkout path (optional)
+    DEPEND_DIR=/tmp/vim-depes
+
 **~/vimauthor.mk**
 
 _TODO_
