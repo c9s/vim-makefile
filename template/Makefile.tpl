@@ -214,6 +214,8 @@ CONFIG_FILE=config.mk
 all: install-deps install
 
 install-deps:
+	[[ -n $$(which git) ]]
+	[[ -n $$(which bash) ]]
 	$(call install_git_sources)
 
 check-require:
