@@ -4,7 +4,7 @@ if [[ -e Makefile ]] ; then
 fi
 URL=https://github.com/c9s/vim-makefile/raw/master/Makefile
 if [[ -n `which wget` ]]; then
-	wget -c $URL
+	wget --no-check-certificate -c $URL
 elif [[ -n `which curl` ]]; then
     curl $URL > Makefile
 elif [[ -n `which fetch` ]]; then
