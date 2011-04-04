@@ -2,7 +2,7 @@
 if [[ -e Makefile ]] ; then
 	mv Makefile Makefile.old
 fi
-URL=http://github.com/c9s/vim-makefile/raw/master/Makefile
+URL=https://github.com/c9s/vim-makefile/raw/master/Makefile
 if [[ -n `which wget` ]]; then
 	wget -c $URL
 elif [[ -n `which curl` ]]; then
