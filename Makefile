@@ -221,8 +221,8 @@ config:
 	@echo "#FILES="
 	@echo ""                                                                                           >> $(CONFIG_FILE)
 	@echo "bundle-deps:"                                                                               >> $(CONFIG_FILE)
-	@echo "\t\t\$$(call fetch_github,ID,REPOSITORY,BRANCH,PATH,TARGET_PATH)" >> $(CONFIG_FILE)
-	@echo "\t\t\$$(call fetch_url,FILE_URL,TARGET_PATH)"                                           >> $(CONFIG_FILE)
+	@echo "	\$$(call fetch_github,ID,REPOSITORY,BRANCH,PATH,TARGET_PATH)" >> $(CONFIG_FILE)
+	@echo "	\$$(call fetch_url,FILE_URL,TARGET_PATH)"                                           >> $(CONFIG_FILE)
 
 
 init-author:
