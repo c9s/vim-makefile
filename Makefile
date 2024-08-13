@@ -349,11 +349,11 @@ clean-bundle-deps:
 
 update:
 	@echo "Updating Makefile..."
-	@URL=http://github.com/c9s/vim-makefile/raw/master/Makefile ; \
+	@URL=https://raw.githubusercontent.com/c9s/vim-makefile/master/Makefile ; \
 	if [[ -n `which curl` ]]; then \
 		curl $$URL -o Makefile ; \
-	if [[ -n `which wget` ]]; then \
-		wget -c $$URL ; \
+	elif [[ -n `which wget` ]]; then \
+		wget $$URL -O Makefile ; \
 	elif [[ -n `which fetch` ]]; then \
 		fetch $$URL ; \
 	fi
